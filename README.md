@@ -1,10 +1,3 @@
-This project contains of two parts:
-Part 1 - Comparing Latency and accuracy of traditional and deep learning 
-This is contained in 
-
-
-Part 2 - BERT Sentiment Analysis Web Application
-
 A Flask-based web application that performs sentiment analysis on text data using a pre-trained BERT model.
 
 ## Overview
