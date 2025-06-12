@@ -1,0 +1,139 @@
+<!-- templates/results.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analysis Results - Sentiment Analysis Tool</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .main-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .footer {
+            margin-top: 50px;
+            padding: 20px 0;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+        .viz-container {
+            margin: 30px 0;
+        }
+        .viz-img {
+            max-width: 100%;
+            height: auto;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .stats-card {
+            margin-bottom: 20px;
+        }
+        .table-responsive {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="/">Sentiment Analysis Tool</a>
+        </div>
+    </nav>
+
+    <div class="main-container">
+        <h2 class="mt-4 mb-4">Sentiment Analysis Results</h2>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card stats-card">
+                    <div class="card-header">
+                        <h5>Analysis Statistics</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Total Reviews:</strong> {{ total_reviews }}</p>
+                        <p><strong>Positive Reviews:</strong> {{ positive_reviews }} ({{ positive_percent }}%)</p>
+                        <p><strong>Negative Reviews:</strong> {{ negative_reviews }} ({{ negative_percent }}%)</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="card stats-card">
+                    <div class="card-header">
+                        <h5>Actions</h5>
+                    </div>
+                    <div class="card-body">
+                        <a href="{{ url_for('download_file', filename=result_filename) }}" class="btn btn-success">Download Full Results CSV</a>
+                        <a href="{{ url_for('index') }}" class="btn btn-primary mt-2">Analyze Another Dataset</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row viz-container">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Sentiment Distribution</h5>
+                    </div>
+                    <div class="card-body text-center">
+                        <img src="data:image/png;base64,{{ pie_chart }}" class="viz-img" alt="Sentiment Distribution">
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row viz-container">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Word Clouds by Sentiment</h5>
+                    </div>
+                    <div class="card-body text-center">
+                        <img src="data:image/png;base64,{{ wordcloud_image }}" class="viz-img" alt="Word Clouds">
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <h5>Sample Results (First 10 Rows)</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                {% for key in sample_data[0].keys() %}
+                                <th>{{ key }}</th>
+                                {% endfor %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for row in sample_data %}
+                            <tr>
+                                {% for value in row.values() %}
+                                <td>{% if value|string|length > 100 %}{{ value|string|truncate(100) }}{% else %}{{ value }}{% endif %}</td>
+                                {% endfor %}
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <span>© 2025 Sentiment Analysis Tool</span>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

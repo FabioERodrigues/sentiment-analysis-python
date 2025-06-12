@@ -1,0 +1,5 @@
+
+tf_env/
+tf_env/Lib/site-packages/
+venv/
+.env/

@@ -1,0 +1,103 @@
+ <!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentiment Analysis Tool</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .jumbotron {
+            padding: 2rem;
+            background-color: #e9ecef;
+            border-radius: .3rem;
+            margin-bottom: 2rem;
+        }
+        .main-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .footer {
+            margin-top: 50px;
+            padding: 20px 0;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="/">Sentiment Analysis Tool</a>
+        </div>
+    </nav>
+
+    <div class="main-container">
+        <div class="jumbotron mt-4">
+            <h1 class="display-5">Sentiment Analysis with BERT</h1>
+            <p class="lead">Upload your dataset and let our pre-trained BERT model analyze the sentiment of your text data.</p>
+            
+            {% if not model_loaded %}
+                <div class="alert alert-danger" role="alert">
+                    <strong>Warning:</strong> BERT model could not be loaded. Please make sure the model files exist in the models folder.
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h5>Upload Dataset</h5>
+            </div>
+            <div class="card-body">
+                <form action="/upload" method="post" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="file" class="form-label">Select a CSV or Excel file containing text data:</label>
+                        <input type="file" class="form-control" id="file" name="file" accept=".csv,.xls,.xlsx" required>
+                        <div class="form-text">File must be in CSV or Excel format with one column containing text data.</div>
+                    </div>
+                    <button type="submit" class="btn btn-primary" {% if not model_loaded %}disabled{% endif %}>Upload and Continue</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="card mt-4">
+            <div class="card-header">
+                <h5>About This Tool</h5>
+            </div>
+            <div class="card-body">
+                <p>This web application uses a BERT (Bidirectional Encoder Representations from Transformers) model fine-tuned on movie reviews to analyze sentiment in text data.</p>
+                <p>The application will:</p>
+                <ul>
+                    <li>Clean and preprocess your text data</li>
+                    <li>Use BERT to classify each text as positive or negative</li>
+                    <li>Generate visualizations of the results</li>
+                    <li>Allow you to download the analyzed dataset</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <span>© 2025 Sentiment Analysis Tool</span>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+
+ <!-- <!doctype html>
+ <html>
+   <head><title>Debug Index</title></head>
+   <body>
+     <h1>Template is rendering!</h1>
+     <p>model_loaded = {{ model_loaded }}</p>
+
+     
+   </body>
+ </html>
+  -->
